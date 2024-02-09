@@ -1,5 +1,9 @@
 @extends('layouts.admin')
 
 @section('content')
-    elenco dei post
+    <ul>
+        @foreach ($projects as $project)
+            <li>{{ $project->title }}</li>
+        @endforeach
+    </ul>
 @endsection

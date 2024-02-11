@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
@@ -38,9 +39,9 @@ class ProjectController extends Controller
         $project = new Project();
 
         $project->fill($data);
-        // $project->title = $data['title'];
-        // $project->description = $data['description'];
         $project->slug = Str::of($project->title)->slug('-');
+        $project->project_image = Storage::put('uploads', $data['project_image']);
+        
         $project->save();
 
         return redirect()->route('admin.projects.index')->with('message', "Project  $project->title created successfully!");
@@ -79,7 +80,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        
+        if ($project->project_image) {
+            Storage::delete($project->project_image);
+        }
         $project->delete();
 
         return redirect()->route('admin.projects.index')->with('message', "Project  $project->title deleted successfuly!");;

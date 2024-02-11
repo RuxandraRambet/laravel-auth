@@ -22,6 +22,10 @@
                 <textarea class="form-control @error('description') is-invalid @enderror" id="description" rows="3"
                     name="description">{{ old('description', $project->description) }}</textarea>
             </div>
+            <div class="mb-3">
+                <label for="project_image" class="form-label fw-bold">Project Image</label>
+                <input class="form-control" type="file" id="project_image" name="project_image" value="{{ old('project_image', $project->project_image) }}">
+            </div>
             <button class="btn btn-primary">Update</button>
         </form>
     </div>

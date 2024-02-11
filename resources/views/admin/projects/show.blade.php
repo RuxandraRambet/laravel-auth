@@ -8,6 +8,11 @@
             </div>
             <div class="card-body">
                 <p class="card-text"> {{ $project->description }}</p>
+                @if ($project->project_image)
+                    <div class="my-4">
+                        <img src="{{ asset('storage/' . $project->project_image) }}" class="w-50">
+                    </div>
+                @endif
                 <a href="{{ route('admin.projects.index') }}" class="btn btn-primary">Go back to projects list</a>
             </div>
         </div>

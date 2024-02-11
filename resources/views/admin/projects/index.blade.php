@@ -24,14 +24,18 @@
                     <th scope="col">id</th>
                     <th scope="col">title</th>
                     <th scope="col">slug</th>
-                    <th scope="col"></th>
+                    <th scope="col text-right"></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($projects as $project)
                     <tr>
                         <td class="fw-bold">{{ $project->id }}</td>
-                        <td>{{ $project->title }}</td>
+                        <td>
+                            @if ($project->project_image)
+                                <a href="#" class="btn btn-secondary btn-sm">image</a>
+                            @endif {{ $project->title }}
+                        </td>
                         <td>{{ $project->slug }}</td>
                         <td class="d-flex justify-content-end">
                             <a href="{{ route('admin.projects.show', $project) }}" role="button"

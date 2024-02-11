@@ -1,25 +1,22 @@
 @extends('layouts.admin')
 
+@section('page-header')
+        <h1>My Projects</h1>
+        <a href="{{ route('admin.projects.create') }}" role="button" class="btn btn-primary">Create New Project</a>
+@endsection
+
 @section('content')
-    <header>
-        <div class="container mt-3 d-flex justify-content-between align-items-center">
-            <h1>My Projects</h1>
-            <a href="{{ route('admin.projects.create') }}" role="button" class="btn btn-primary">Create New Project</a>
-        </div>
-
-        @if (session('message'))
-            <div class="toast show position-fixed bottom-0 end-0 p-3" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                    <strong class="me-auto">Alert</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body">
-                    {{ session('message') }}
-                </div>
+    @if (session('message'))
+        <div class="toast show position-fixed bottom-0 end-0 p-3" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Alert</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-        @endif
-
-    </header>
+            <div class="toast-body">
+                {{ session('message') }}
+            </div>
+        </div>
+    @endif
     <div class="container mt-5">
         <table class="table table-striped">
             <thead>
@@ -36,11 +33,15 @@
                         <td class="fw-bold">{{ $project->id }}</td>
                         <td>{{ $project->title }}</td>
                         <td>{{ $project->slug }}</td>
-                        <td>
-                            <a href="" role="button" class="btn btn-primary btn-sm">Edit</a>
+                        <td class="d-flex justify-content-end">
                             <a href="{{ route('admin.projects.show', $project) }}" role="button"
-                                class="btn btn-info btn-sm mx-2">Show</a>
-                            <a href="" role="button" class="btn btn-danger btn-sm">Delete</a>
+                                class="btn btn-warning btn-sm">Show</a>
+                            <a href="{{ route('admin.projects.edit', $project) }}" role="button" class="btn btn-primary btn-sm mx-2">Edit</a>
+                            <form action="{{ route('admin.projects.destroy', $project) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-sm">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

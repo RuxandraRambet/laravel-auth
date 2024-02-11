@@ -36,8 +36,10 @@ class ProjectController extends Controller
         $data = $request->validated();
 
         $project = new Project();
-        $project->title = $data['title'];
-        $project->description = $data['description'];
+
+        $project->fill($data);
+        // $project->title = $data['title'];
+        // $project->description = $data['description'];
         $project->slug = Str::of($project->title)->slug('-');
         $project->save();
 
@@ -57,7 +59,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('admin.projects.edit', compact('project'));
     }
 
     /**
@@ -65,7 +67,11 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        $data = $request->validated();
+        $project->slug = Str::of($project['title'])->slug('-');
+        $project->update($data);
+
+        return redirect()->route('admin.projects.index')->with('message', "Project  $project->title updated correctly!");
     }
 
     /**
@@ -73,6 +79,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        
+        $project->delete();
+
+        return redirect()->route('admin.projects.index')->with('message', "Project  $project->title deleted successfuly!");;
     }
 }
